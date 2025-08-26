@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+  title: User Profiles API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /users/{id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: Utilisateur trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+  /users:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateUserProfile'
+      responses:
+        201:
+          description: Utilisateur crée
+  /users/{id}/personalInfo:
+    put:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonalInfo'
+      responses:
+        200:
+          description: Adresse mise à jour
+  /users/{id}/preferences:
+    put:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Preferences'
+      responses:
+        200:
+          description: Preferences mises à jour
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    UserProfile:
+      allOf:
+        - $ref: '#/components/schemas/PersonalInfo'
+        - $ref: '#/components/schemas/Adress'
+        - $ref: '#/components/schemas/Preferences'
+      type: object
+      properties:
+        identifier:
+          type: string
+    CreateUserProfile:
+      allOf:
+        - $ref: '#/components/schemas/PersonalInfo'
+        - $ref: '#/components/schemas/Adress'
+        - $ref: '#/components/schemas/Preferences'
+    PersonalInfo:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last-name:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+    Address:
+      type: object
+      properties:
+        address_street:
+          type: string
+        address_city:
+          type: string
+        address_country:
+          type: string
+        address_postal_code:
+          type: string
+    Preferences:
+      type: object
+      properties:
+        needs_newsletter:
+          type: boolean
+        language:
+          type: string
+          enum: [mg, fr, eng]
