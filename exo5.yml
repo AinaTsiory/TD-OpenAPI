@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: Auth and Tags API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /products:
+    get:
+      :
+      tags: [Products]
+      responses:
+        200:
+          description: Liste des produits
+          content:
+            application/json:
+              schema:
+                type: array
+                items: $ref: 'components/schemas/Product'
+  /orders:
+    get:
+      tags: [Orders]
+      parameters:
+        - $ref: 'components/parameters/page'
+        - $ref: 'components/parameters/size'
+      responses:
+        201:
+          description: Commandes créée
+components:
+  SecuritySchemas:
+    basicAuth:
+      type: http
+      schema: basic
+  parameters:
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+    size:
+      name: size
+      in: query
+      schema:
+        type: integer
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          expiration-datetime:
+            type: string
+            format: date-time
+          price:
+            type: number
+    Order:
+      type: object
+      properties:
+        identifier:
+          type: integer
+        customer_name:
+          type: string
+        creation_datetime:
+          type: string
+          format: date-time
+        total_amount:
+          type: number
