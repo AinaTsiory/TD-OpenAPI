@@ -1,4 +1,3 @@
-
 openapi: 3.0.3
 info:
   title: Products API
@@ -9,8 +8,8 @@ paths:
   /products:
     get:
       parameters:
-        - $ref: 'components/parameters/limit'
-        - $ref: 'components/parameters/q'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/q'
       responses:
         200:
           description: Liste des produits
@@ -20,7 +19,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'components/schemas/Product'
+                  $ref: '#/components/schemas/Product'
 components:
   parameters:
     limit:
